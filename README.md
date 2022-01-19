@@ -15,6 +15,8 @@ simple bash script to upload a single csv to wigle.net</br>
 **usage:** upload2wigle.sh /path/to/filename.csv
 
 # uploadN2wigle.sh 
+"upload N files to wigle".. get it? 
+
 is a newer version that uploads all .csv and .wiglecsv files in current directory.
 
 
