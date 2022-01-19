@@ -1,9 +1,5 @@
 Make sure to change the APIName/APIToken at the top of each script
 
-# MAKE SURE TO CHANGE IT TO YOUR CREDENTIALS:
-APIName="" #[FILL IN YOUR API NAME]
-APIToken="" #[FILL IN YOUR API TOKEN]
-
 save the file and alias for easy use.
 _alias upload2wigle="/home/pi/scripts/upload2wigle.sh"_
 
