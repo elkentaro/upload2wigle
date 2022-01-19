@@ -1,0 +1,78 @@
+#!/bin/bash
+
+# MAKE SURE TO CHANGE IT TO YOUR CREDENTIALS:
+APIName="" #[FILL IN YOUR API NAME]
+APIToken="" #[FILL IN YOUR API TOKEN]
+
+
+#-----------script stuff below -----------#
+
+
+green='\033[32m'
+blue='\033[34m'
+clear='\033[0m'
+yellow="\033[33m"
+red="\033[31m"
+declare -a tfiles
+
+echo -e "
+----------- Kismet2Wigle -----------
+Welcome to the kismet to wigle upload tool.
+this will upload all *.csv or *.wiglecsv files in the
+current directory to wigle.net
+-----------------------------------
+Hit ${yellow}[return]${clear} to proceed. or type "${red}exit${clear}" to exit.
+"
+read start
+
+
+if [ "$start" = "exit" ]
+    then
+	echo "bye bye! keep wardriving! Always wigle like you mean it!"
+	exit
+fi
+
+
+for  f in *.csv ; do 
+    if [ -f "$f" ] 
+    then
+    tfiles=("${tfiles[@]}" "$f")
+    else 
+    echo -e "${red} no *.csv files to upload ${clear}"
+    fi
+done
+
+for wf in *.wiglecsv ; do 
+    if [ -f "$wf" ]
+    then
+    tfiles=("${tfiles[@]}" "$wf")
+    else 
+    echo -e "${red} no *.wiglecsv files to upload ${clear}"
+    fi
+done
+
+nfiles=${#tfiles[@]}
+
+if [ $nfiles==0 ]
+    then
+    echo ""
+    echo -e "No files to upload \n"
+    echo "bye bye! keep wardriving! Always wigle like you mean it!"
+    exit
+fi
+
+if [ $nfiles>0 ]
+    then
+    echo -e "${green}$nfiles${clear} file(s) to process\n\n"
+    sleep 0.5
+    for wiglefile in "${tfiles[@]}" ; do
+    echo -e "${yellow} uploading ${clear} $wiglefile "
+    curl -X POST "https://api.wigle.net/api/v2/file/upload" -H "accept: application/json" -H "Content-Type: multipart/form-data" -F "file=@$wiglefile;type=text/csv" -F "donate=on" -i -H 'Accept:application/json' -u $APIName:$APIToken --basic && 
+    mv $wiglefile $wiglefile.done
+    echo -e "\n ${blue}$wiglefile${clear} is now ${red}$wiglefile.done${clear} \n"
+    done
+	
+fi
+
+
+echo "bye bye! keep wardriving! Always wigle like you mean it!"
